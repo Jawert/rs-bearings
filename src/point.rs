@@ -1,12 +1,13 @@
-// A point consists of a latitude and longitude
+use std::fmt;
+
 // First a struct is defined
-#[derive(Debug)]
+#[derive(Debug)] // For printing
 pub struct Point {
     pub latitude: f64, // f64 (double-precision float) so it can handle floats and integers
     pub longitude: f64,
 }
 
-// Second, behavior is defined separately.
+// Second, behavior is defined
 impl Point {
     pub fn new(latitude: impl Into<f64>, longitude: impl Into<f64>) -> Result<Self, String> {
         let latitude = latitude.into();
@@ -23,5 +24,12 @@ impl Point {
         }
 
         Ok(Point { latitude, longitude })
+    }
+}
+
+// Implement Display for custom string format
+impl fmt::Display for Point {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "({}, {})", self.latitude, self.longitude)
     }
 }
