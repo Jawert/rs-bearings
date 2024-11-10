@@ -1,7 +1,9 @@
 mod bearing_line;
+mod geo_helpers;
 mod point;
 
 use bearing_line::BearingLine;
+use geo_helpers::get_haversine_distance;
 
 fn main() {
     let bearing_line =
@@ -16,4 +18,9 @@ fn main() {
     println!("Latitude: {}", bearing_line2.latitude());
     println!("Longitude: {}", bearing_line2.longitude());
     println!("{}", bearing_line2);
+
+    println!(
+        "Haversine Distance: {}",
+        get_haversine_distance(&bearing_line, &bearing_line2)
+    )
 }
