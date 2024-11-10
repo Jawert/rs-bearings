@@ -1,3 +1,11 @@
+mod point;
+
+use point::Point;
+
 fn main() {
-    println!("Hello, world!");
+    match Point::new(51.5074, -0.1234) {
+        Ok(point) => println!("{:?}", point),
+        Err(e) => println!("Error creating point: {}", e),
+    }
 }
+
