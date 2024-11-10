@@ -2,7 +2,7 @@ use std::fmt;
 
 ///
 /// This struct defines a coordinate which consists of two numbers, the latitude and longitude.
-/// 
+///
 /// # Fields
 /// - `latitude`: The latitude or "Y" coordinate.
 /// - `longitude`: The longitude or "X" coordinate.
@@ -33,7 +33,10 @@ impl Point {
             return Err("Longitude must be between -180 and 180 degrees.".to_string());
         }
 
-        Ok(Point { latitude, longitude })
+        Ok(Point {
+            latitude,
+            longitude,
+        })
     }
 }
 

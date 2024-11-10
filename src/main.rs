@@ -1,11 +1,12 @@
+mod bearing_line;
 mod point;
 
-use point::Point;
+use bearing_line::BearingLine;
 
 fn main() {
-    match Point::new(51.5074, -0.1234) {
-        Ok(point) => println!("{}", point),
-        Err(e) => println!("Error creating point: {}", e),
-    }
-}
+    let bearing_line = BearingLine::new(37.7749, -122.4194);
 
+    println!("Latitude: {}", bearing_line.latitude());
+    println!("Longitude: {}", bearing_line.longitude());
+    println!("{}", bearing_line);
+}
