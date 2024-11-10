@@ -1,12 +1,14 @@
 use crate::point::Point;
 
+static RADIUS_OF_EARTH_IN_KM: i32 = 6371;
+
 /// This struct defines a BearingLine, which refers to a straight line
 /// that represents the direction or angle from one point to another.
-
 pub struct BearingLine {
     pub point: Point,
     pub bearing: f64,
     pub declination: f64,
+    pub true_bearing: f64,
 }
 
 impl BearingLine {
@@ -41,6 +43,7 @@ impl BearingLine {
             .map_err(|_| "Failed to convert declination to f64. It should be n int or float between -180 and 180 degrees.".to_string())?;
 
         let point = Point::new(latitude, longitude)?;
+        let true_bearing = bearing + declination;
 
         // Check bearing range
         if !(0.0..=360.0).contains(&bearing) {
@@ -56,6 +59,7 @@ impl BearingLine {
             point,
             bearing,
             declination,
+            true_bearing,
         })
     }
 
@@ -65,6 +69,18 @@ impl BearingLine {
 
     pub fn longitude(&self) -> f64 {
         self.point.longitude
+    }
+
+    fn true_bearing_to_radians(&self) -> f64 {
+        self.true_bearing.to_radians()
+    }
+
+    fn lat_to_radians(&self) -> f64 {
+        self.point.latitude.to_radians()
+    }
+
+    fn lon_to_radians(&self) -> f64 {
+        self.point.longitude.to_radians()
     }
 }
 
