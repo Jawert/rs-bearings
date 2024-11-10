@@ -7,27 +7,27 @@ use std::fmt;
 /// - `latitude`: The latitude or "Y" coordinate.
 /// - `longitude`: The longitude or "X" coordinate.
 pub struct Point {
-    pub latitude: f64, // f64 (double-precision float) so it can handle floats and integers
+    pub latitude: f64,
     pub longitude: f64,
 }
 
 impl Point {
-    /// Creates a new `Point` instance with the given coordinates.
-    ///
-    /// # Arguments
-    /// - `latitude`: The latitude or "Y" coordinate of the point.
-    /// - `longitude`: The longitude or "X" coordinate of the point.
-    /// # Returns
-    /// A new instance of `Point`.
-    pub fn new(latitude: impl Into<f64>, longitude: impl Into<f64>) -> Result<Self, String> {
-        let latitude = latitude.into();
-        let longitude = longitude.into();
+    pub fn new<T, U>(latitude: T, longitude: U) -> Result<Self, String>
+    where
+        T: TryInto<f64>,
+        U: TryInto<f64>,
+    {
+        let latitude = latitude
+            .try_into()
+            .map_err(|_| "Failed to convert latitude to f64. It should be an int or float between -90 and 90 degrees.".to_string())?;
+        let longitude = longitude
+            .try_into()
+            .map_err(|_| "Failed to convert longitude to f64. It should be an int or float between -180 an 180 degrees.".to_string())?;
 
         // Check latitude range
         if !(-90.0..=90.0).contains(&latitude) {
             return Err("Latitude must be between -90 and 90 degrees.".to_string());
         }
-
         // Check longitude range (assuming -180 to 180 degrees)
         if !(-180.0..=180.0).contains(&longitude) {
             return Err("Longitude must be between -180 and 180 degrees.".to_string());
