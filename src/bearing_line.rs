@@ -1,7 +1,5 @@
 use crate::point::Point;
 
-static RADIUS_OF_EARTH_IN_KM: i32 = 6371;
-
 /// This struct defines a BearingLine, which refers to a straight line
 /// that represents the direction or angle from one point to another.
 pub struct BearingLine {
@@ -12,7 +10,25 @@ pub struct BearingLine {
 }
 
 impl BearingLine {
-    // Main constructor without declination
+    /// Creates a new `BearingLine` without declination.
+    ///
+    /// This constructor is intended to be used when the declination is zero (0). It calls the secondary
+    /// constructor (`with_declination`) with a declination of 0.0.
+    ///
+    /// # Parameters:
+    /// - `latitude`: The latitude of the point, which can be an integer or a float. Should be between -90 and 90 degrees.
+    /// - `longitude`: The longitude of the point, which can be an integer or a float. Should be between -180 and 180 degrees.
+    /// - `bearing`: The bearing (in degrees), which can be an integer or a float. Should be between 0 and 360 degrees.
+    ///
+    /// # Returns:
+    /// - `Ok(BearingLine)` if the input values are valid and the conversion is successful.
+    /// - `Err(String)` if any of the input values are invalid or if the conversion fails.
+    ///
+    /// # Example:
+    /// ```rust
+    /// let bearing_line = BearingLine::new(37.7749, -122.4194, 45.0);
+    /// assert!(bearing_line.is_ok());
+    /// ```   
     pub fn new<T, U, V>(latitude: T, longitude: U, bearing: V) -> Result<Self, String>
     where
         T: TryInto<f64>,
@@ -22,7 +38,26 @@ impl BearingLine {
         Self::with_declination(latitude, longitude, bearing, 0)
     }
 
-    // Secondary constructor with declination
+    /// Creates a new `BearingLine` with a specified declination.
+    ///
+    /// This constructor allows you to provide both a bearing and a declination (which is a correction angle
+    /// applied to the bearing). The resulting true bearing is calculated as `bearing + declination`.
+    ///
+    /// # Parameters:
+    /// - `latitude`: The latitude of the point, which can be an integer or a float. Should be between -90 and 90 degrees.
+    /// - `longitude`: The longitude of the point, which can be an integer or a float. Should be between -180 and 180 degrees.
+    /// - `bearing`: The bearing (in degrees), which can be an integer or a float. Should be between 0 and 360 degrees.
+    /// - `declination`: The declination (in degrees), which can be an integer or a float. Should be between -180 and 180 degrees.
+    ///
+    /// # Returns:
+    /// - `Ok(BearingLine)` if the input values are valid and the conversion is successful.
+    /// - `Err(String)` if any of the input values are invalid or if the conversion fails.
+    ///
+    /// # Example:
+    /// ```rust
+    /// let bearing_line = BearingLine::with_declination(37.7749, -122.4194, 45.0, 10.0);
+    /// assert!(bearing_line.is_ok());
+    /// ```
     pub fn with_declination<T, U, V, W>(
         latitude: T,
         longitude: U,
@@ -84,6 +119,7 @@ impl BearingLine {
     }
 }
 
+// Implement Display for custom string format
 impl std::fmt::Display for BearingLine {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(

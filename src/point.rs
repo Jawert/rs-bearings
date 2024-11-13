@@ -1,6 +1,5 @@
 use std::fmt;
 
-///
 /// This struct defines a coordinate which consists of two numbers, the latitude and longitude.
 ///
 /// # Fields
@@ -11,6 +10,25 @@ pub struct Point {
     pub longitude: f64,
 }
 
+/// Creates a new `Point` with the specified latitude and longitude.
+///
+/// # Parameters:
+/// - `latitude`: The latitude of the point, which can be provided as an integer or a float.
+///   Must be in the range of -90 to 90 degrees (inclusive).
+/// - `longitude`: The longitude of the point, which can be provided as an integer or a float.
+///   Must be in the range of -180 to 180 degrees (inclusive).
+///
+/// # Returns:
+/// - `Ok(Point)` if the latitude and longitude are within the valid range and can be successfully converted to `f64`.
+/// - `Err(String)` if either the latitude or longitude is out of range, or if the conversion to `f64` fails.
+///
+/// # Example:
+/// ```rust
+/// let point = Point::new(37.7749, -122.4194);
+/// assert!(point.is_ok());
+/// let point = Point::new(100.0, -200.0);
+/// assert!(point.is_err());
+/// ```
 impl Point {
     pub fn new<T, U>(latitude: T, longitude: U) -> Result<Self, String>
     where
