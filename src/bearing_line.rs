@@ -106,7 +106,7 @@ impl BearingLine {
         self.point.longitude
     }
 
-    pub fn true_bearing_to_radians(&self) -> f64 {
+    pub fn _true_bearing_to_radians(&self) -> f64 {
         self.true_bearing.to_radians()
     }
 
